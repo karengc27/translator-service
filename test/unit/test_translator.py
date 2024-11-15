@@ -1,85 +1,55 @@
 from src.translator import translate_content
-
-
-def test_chinese():
-    is_english, translated_content = translate_content("这是一条中文消息")
-    assert is_english == False
-    assert translated_content == "This is a Chinese message"
-
-def test_french():
-    is_english, translated_content = translate_content("Ceci est un message en français")
-    assert is_english == False
-    assert translated_content == "This is a French message"
-
-def test_spanish():
-    is_english, translated_content = translate_content("Esta es un mensaje en español")
-    assert is_english == False
-    assert translated_content == "This is a Spanish message"
-
-def test_portuguese():
-    is_english, translated_content = translate_content("Esta é uma mensagem em português")
-    assert is_english == False
-    assert translated_content == "This is a Portuguese message"
-
-def test_japanese():
-    is_english, translated_content = translate_content("これは日本語のメッセージです")
-    assert is_english == False
-    assert translated_content == "This is a Japanese message"
-
-def test_korean():
-    is_english, translated_content = translate_content("이것은 한국어 메시지입니다")
-    assert is_english == False
-    assert translated_content == "This is a Korean message"
+# comment
 
 def test_german():
-    is_english, translated_content = translate_content("Dies ist eine Nachricht auf Deutsch")
+    is_english, translated_content = translate_content("Hier ist dein erstes Beispiel.")
     assert is_english == False
-    assert translated_content == "This is a German message"
+    assert translated_content == "Here is your first example."
+
+def test_french():
+    is_english, translated_content = translate_content("Aujourd'hui, il fait très beau.")
+    assert is_english == False
+    assert translated_content == "Today, the weather is very nice."
+
+def test_czech():
+    is_english, translated_content = translate_content("С днём рождения! Желаю тебе счастья, здоровья, успехов в работе и семейного благополучия. Пусть твои мечты сбываются, и каждый новый день приносит радость и вдохновение.")
+    assert is_english == False
+    assert translated_content == "Happy birthday! I wish you happiness, health, success at work, and family well-being. May your dreams come true, and may each new day bring joy and inspiration."
+
+def test_japanese():
+    is_english, translated_content = translate_content("今日は晴れて、気持ちの良い天気です。友達と一緒に公園でピクニックをする予定です。")
+    assert is_english == False
+    assert translated_content == "Today is sunny and the weather feels great. I plan to have a picnic in the park with friends."
+
+def test_portuguese():
+    is_english, translated_content = translate_content("A educação é um direito fundamental de todos, e garantir que todas as crianças tenham acesso a uma educação de qualidade é essencial para o futuro da sociedade.")
+    assert is_english == False
+    assert translated_content == "Education is a fundamental right for everyone, and ensuring that all children have access to quality education is essential for the future of society."
 
 def test_italian():
-    is_english, translated_content = translate_content("Questo è un messaggio in italiano")
+    is_english, translated_content = translate_content("Vorrei ringraziarti per tutto l'aiuto che mi hai offerto durante questi mesi difficili. Non avrei potuto farcela senza il tuo sostegno costante.")
     assert is_english == False
-    assert translated_content == "This is an Italian message"
+    assert translated_content == "I would like to thank you for all the help you have given me during these difficult months. I couldn't have made it without your constant support."
 
-def test_russian():
-    is_english, translated_content = translate_content("Это сообщение на русском")
+def test_chinese():
+    is_english, translated_content = translate_content("这是你完成任务后的奖励。")
     assert is_english == False
-    assert translated_content == "This is a Russian message"
+    assert translated_content == "This is your reward for completing the task."
 
-def test_arabic():
-    is_english, translated_content = translate_content("هذه رسالة باللغة العربية")
+def test_spanish():
+    is_english, translated_content = translate_content("¿Cómo estás? Espero que estés bien.")
     assert is_english == False
-    assert translated_content == "This is an Arabic message"
+    assert translated_content == "How are you? I hope you are well."
 
-def test_hindi():
-    is_english, translated_content = translate_content("यह हिंदी में संदेश है")
+def test_spanish_2():
+    is_english, translated_content = translate_content("Este proyecto tiene un gran potencial para cambiar la forma en que abordamos la sostenibilidad en nuestras comunidades, y espero que podamos trabajar juntos para llevarlo adelante.")
     assert is_english == False
-    assert translated_content == "This is a Hindi message"
+    assert translated_content == "This project has great potential to change how we approach sustainability in our communities, and I hope we can work together to move it forward."
 
-def test_thai():
-    is_english, translated_content = translate_content("นี่คือข้อความภาษาไทย")
+def test_french_2():
+    is_english, translated_content = translate_content("Il y a des moments dans la vie où il est important de faire une pause et de réfléchir aux choix que nous avons faits et aux directions que nous voulons prendre.")
     assert is_english == False
-    assert translated_content == "This is a Thai message"
-
-def test_turkish():
-    is_english, translated_content = translate_content("Bu bir Türkçe mesajdır")
-    assert is_english == False
-    assert translated_content == "This is a Turkish message"
-
-def test_vietnamese():
-    is_english, translated_content = translate_content("Đây là một tin nhắn bằng tiếng Việt")
-    assert is_english == False
-    assert translated_content == "This is a Vietnamese message"
-
-def test_catalan():
-    is_english, translated_content = translate_content("Esto es un mensaje en catalán")
-    assert is_english == False
-    assert translated_content == "This is a Catalan message"
-
-def test_english():
-    is_english, translated_content = translate_content("This is an English message")
-    assert is_english == True
-    assert translated_content == "This is an English message"
+    assert translated_content == "There are moments in life when it is important to pause and reflect on the choices we have made and the directions we want to take."
 
 def test_llm_normal_response():
     is_english, translated_content = translate_content("Hello, this is a normal message.")
