@@ -1,34 +1,75 @@
+import os
+from openai import AzureOpenAI
+
+# CHAT GPT CODE
+env_api_key = os.environ.get('API_KEY')
+
+if not env_api_key:
+    raise ValueError("Environment variable API_KEY is not set.")
+
+
+# Initialize the Azure OpenAI client
+client = AzureOpenAI(
+    api_key=env_api_key,  # Replace with your Azure API key
+    api_version="2024-02-15-preview",
+    azure_endpoint="https://dhanya-openai.openai.azure.com/"  # Replace with your Azure endpoint
+)
+
+def get_translation(post: str) -> str:
+    context = "You are a helpful assistant specialized in translating text. Translate the following text to English."
+    response = client.chat.completions.create(
+        model="gpt-4o-mini",
+        messages=[
+            {
+                "role": "system",
+                "content": context
+            },
+            {
+                "role": "user",
+                "content": post
+            }
+        ]
+    )
+    return response.choices[0].message.content
+
+def get_language(post: str) -> str:
+    context = "You are an assistant that identifies the language of the provided text. Specify the language of the following text. Answer in 1 word, with just the name of the language (use the English name)."
+    response = client.chat.completions.create(
+        model="gpt-4o-mini",
+        messages=[
+            {
+                "role": "system",
+                "content": context
+            },
+            {
+                "role": "user",
+                "content": post
+            }
+        ]
+    )
+    return response.choices[0].message.content
+
+
 def translate_content(content: str) -> tuple[bool, str]:
-    if content == "这是一条中文消息":
-        return False, "This is a Chinese message"
-    if content == "Ceci est un message en français":
-        return False, "This is a French message"
-    if content == "Esta es un mensaje en español":
-        return False, "This is a Spanish message"
-    if content == "Esta é uma mensagem em português":
-        return False, "This is a Portuguese message"
-    if content  == "これは日本語のメッセージです":
-        return False, "This is a Japanese message"
-    if content == "이것은 한국어 메시지입니다":
-        return False, "This is a Korean message"
-    if content == "Dies ist eine Nachricht auf Deutsch":
-        return False, "This is a German message"
-    if content == "Questo è un messaggio in italiano":
-        return False, "This is an Italian message"
-    if content == "Это сообщение на русском":
-        return False, "This is a Russian message"
-    if content == "هذه رسالة باللغة العربية":
-        return False, "This is an Arabic message"
-    if content == "यह हिंदी में संदेश है":
-        return False, "This is a Hindi message"
-    if content == "นี่คือข้อความภาษาไทย":
-        return False, "This is a Thai message"
-    if content == "Bu bir Türkçe mesajdır":
-        return False, "This is a Turkish message"
-    if content == "Đây là một tin nhắn bằng tiếng Việt":
-        return False, "This is a Vietnamese message"
-    if content == "Esto es un mensaje en catalán":
-        return False, "This is a Catalan message"
-    if content == "This is an English message":
-        return True, "This is an English message"
-    return True, content
+    try:
+        detected_language = get_language(content)
+
+        # Check if detected language is in the expected format (a single word)
+        if not isinstance(detected_language, str) or " " in detected_language.strip():
+            raise ValueError("Unexpected language output format: Expected a single word.")
+
+        if detected_language.lower() == "english":
+            return (True, content)
+
+        translated_text = get_translation(content)
+
+        # Verify translation output format (should be a non-empty string)
+        if not isinstance(translated_text, str) or len(translated_text.strip()) == 0:
+            raise ValueError("Unexpected translation output format: Expected non-empty text.")
+
+        return (False, translated_text)
+
+    except Exception as e:
+        # Log the error and respond with a safe fallback to avoid breaking NodeBB
+        print(f"Error in LLM response handling: {e}")
+        return (True, "Sorry, translation is temporarily unavailable.")
